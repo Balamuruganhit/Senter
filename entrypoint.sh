@@ -1,17 +1,7 @@
 #!/bin/bash
 ConfFile=framework/entity/config/entityengine.xml
 cd /ofbiz
-ls  .git
-if [ $? = 0 ] ; then
-        echo "Git Repo"
-       git checkout $ConfFile
-       git checkout build.gradle
-       git checkout framework/webapp/config/url.properties
-else
-       svn revert $ConfFile
-       svn revert build.gradle
-       svn revert framework/webapp/config/url.properties
-fi
+
 source /root/config.env
 DB_TYPE=`echo "$DB_TYPE"`
 DB_HOST=db-server
