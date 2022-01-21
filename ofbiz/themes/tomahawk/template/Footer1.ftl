@@ -22,8 +22,8 @@ under the License.
 <div id="footer">
   <ul>
     <li>
-      ${uiLabelMap.CommonCopyright} (c) 2001-${nowTimestamp?string("yyyy")} InnOps Tech Team - <a href="http://www.innops.us" target="_blank">www.apache.org</a><br/>
-      ${uiLabelMap.CommonPoweredBy} <a href="http://ofbiz.apache.org" target="_blank">Apache OFBiz</a>
+      ${uiLabelMap.CommonCopyright} (c) 2001-${nowTimestamp?string("yyyy")} The Apache Software Foundation - <a href="http://www.apache.org" target="_blank">www.apache.org</a><br/>
+      ${uiLabelMap.CommonPoweredBy} <a href="http://ofbiz.apache.org" target="_blank">Apache OFBiz</a>  ${uiLabelMap.CommonRelease}
        <#include "ofbizhome://VERSION" ignore_missing=true/>
        <#include "ofbizhome://runtime/GitInfo.ftl" ignore_missing=true/>
     </li>
