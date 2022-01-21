@@ -30,7 +30,23 @@
         - url.properties
         - entrypoint.sh
 
+##### Deployment Steps
     
+    Clone the project for the first time
+    
+    abikrishnan1995@ofbiz-v1:~$ git clone https://github.com/sathishmtech01/ofbiz-docker-v1.git
+    Cloning into 'ofbiz-docker-v1'...
+    Username for 'https://github.com': sathishmtech01
+    Password for 'https://sathishmtech01@github.com': 
+    ..........................................
+    Resolving deltas: 100% (2444/2444), done.
+    
+    
+    Go to the project folder
+    abikrishnan1995@ofbiz-v1:~$ cd ofbiz-docker-v1
+    
+    Run the docker compose file
+    abikrishnan1995@ofbiz-v1:~/ofbiz-docker-v1$ sudo ./compose-up.sh mysql
 
 # InnOps- FBiz-Docker
 Deploy Apache OFBiz Using Docker on GCP VM
@@ -47,7 +63,7 @@ Step 1. Clone This repo
 Step 2. Go to cloned directory.
 
 a) Deploy OFBiz with Mysql Database.
-# ./compose-up.sh mysql
+# sudo ./compose-up.sh mysql
  
 b) Deploy OFBiz with PostgreSQL Database.
 # ./compose-up.sh postgres
