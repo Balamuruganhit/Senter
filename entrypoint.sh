@@ -25,8 +25,8 @@ fi
         sed -i -e '40,80s/localderby/'local$DB_TYPE'/g' $ConfFile
         sed -i -e '350,572s/127.0.0.1/'$DB_HOST'/g' $ConfFile
 
-sed -i 's/force.https.host=/force.https.host='34.134.184.18'/g' framework/webapp/config/url.properties
-sed -i 's/force.http.host=/force.http.host='34.134.184.18'/g' framework/webapp/config/url.properties
+sed -i 's/force.https.host=/force.https.host='34.125.161.165'/g' framework/webapp/config/url.properties
+sed -i 's/force.http.host=/force.http.host='34.125.161.165'/g' framework/webapp/config/url.properties
 
 
 #DataLoad command
