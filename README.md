@@ -35,7 +35,7 @@
     
     Clone the project for the first time
     
-    abikrishnan1995@ofbiz-v1:~$ git clone https://github.com/sathishmtech01/ofbiz-docker-v1.git
+    abikrishnan1995@ofbiz-v1:~$ git clone -b dev-pangun https://github.com/sathishmtech01/ofbiz-docker-v1.git
     Cloning into 'ofbiz-docker-v1'...
     Username for 'https://github.com': sathishmtech01
     Password for 'https://sathishmtech01@github.com': 
