@@ -25,7 +25,7 @@
         sudo chmod +x /usr/local/bin/docker-compose
         
     - Create an external IP, by allowing http, https
-    - Place the IPs in (34.125.161.165)
+    - Place the IPs in (146.148.63.74)
       dir 
         - ofbiz/framework/security/config/security.properties        
         - ofbiz/framework/webapp/config/url.properties
