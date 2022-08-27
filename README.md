@@ -49,6 +49,22 @@
     Run the docker compose file
     abikrishnan1995@ofbiz-v1:~/ofbiz-docker-v1$ sudo ./compose-up.sh mysql
 
+# List docker container running
+
+sathish_mtech01@pangun-v0:~/ofbiz-docker-v1$ sudo docker ps
+CONTAINER ID   IMAGE       COMMAND                  CREATED         STATUS         PORTS                                                                                  NAMES
+430706f0173a   ofbiz       "/bin/sh -c './entry…"   8 seconds ago   Up 7 seconds   0.0.0.0:8080->8080/tcp, :::8080->8080/tcp, 0.0.0.0:8443->8443/tcp, :::8443->8443/tcp   OFBiz-Containers
+bdce634f3405   mysql:5.7   "docker-entrypoint.s…"   9 seconds ago   Up 8 seconds   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                                   DB-Containers
+
+# Checking the container logs
+sathish_mtech01@pangun-v0:~/ofbiz-docker-v1$ sudo docker logs -f 430706f0173a
+Downloading https://services.gradle.org/distributions/gradle-6.5-bin.zip
+.........10%..........20%..........30%..........40%.........50%..........60%..........70%..........80%.........90%..........100%
+
+Welcome to Gradle 6.5!
+..............
+
+
 # InnOps- FBiz-Docker
 Deploy Apache OFBiz Using Docker on GCP VM
 
