@@ -24,8 +24,8 @@ under the License.
     </ul>
   <p>
     <div class="poweredBy"><span class="footerTextColour">${uiLabelMap.CommonPoweredBy} 
-        <a href="http://ofbiz.apache.org" class="noicon">OFBiz </a></span><span class="footerTextColour">Copyright 2001-${nowTimestamp?string("yyyy")} 
-        <a href="http://www.apache.org" class="noicon">The Apache Software Foundation - www.apache.org</a></span> 
+        <a href="http://www.pangun.tech" class="noicon">Pangun NeoERP </a></span><span class="footerTextColour">Copyright 2001-${nowTimestamp?string("yyyy")}
+        <a href="http://www.pangun.tech" class="noicon">Pangun Technologies</a></span>
         <span class="footerTextColour">
             ${uiLabelMap.CommonRelease} <#include "ofbizhome://VERSION" ignore_missing=true/>
             <#include "ofbizhome://runtime/GitInfo.ftl" ignore_missing=true/>
