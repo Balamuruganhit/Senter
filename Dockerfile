@@ -1,7 +1,7 @@
 # OpenJdk IMAGE
 FROM openjdk:8-jdk-alpine
 
-MAINTAINER InnOps Tech Team
+MAINTAINER Panguns Tech Team
 
 # Install necessary packages and desirable debug tools
 RUN apk update && \
