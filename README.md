@@ -26,6 +26,7 @@
         
     - Create an external IP, by allowing http, https
     - Place the IPs in (146.148.63.74)
+    - Place the domain neoerp.pangun.tech in both properties file
       dir 
         - ofbiz/framework/security/config/security.properties        
         - ofbiz/framework/webapp/config/url.properties
@@ -165,7 +166,7 @@
          add_header Strict-Transport-Security max-age=15768000;
       
          location / {
-         proxy_pass https://35.194.11.168:8443;
+         proxy_pass https://localhost:8443;
          proxy_set_header Host $host;
          proxy_set_header X-Real-IP $remote_addr;
          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
