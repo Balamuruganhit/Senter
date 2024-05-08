@@ -22,7 +22,7 @@ under the License.
 <div id="footer">
   <ul>
     <li>
-      ${uiLabelMap.CommonCopyright} (c) 2001-${nowTimestamp?string("yyyy")} Pangun Technologies - <a href="http://www.pangun.tech<" target="_blank">www.pangun.tech</a><br/>
+      ${uiLabelMap.CommonCopyright} (c) 2023-${nowTimestamp?string("yyyy")} Pangun Technologies - <a href="http://www.pangun.tech<" target="_blank">www.pangun.tech</a><br/>
       ${uiLabelMap.CommonPoweredBy} <a href="http://www.pangun.tech<" target="_blank">Pangun NeoERP</a>  ${uiLabelMap.CommonRelease}
     </li>
     <li class="opposed">${nowTimestamp?datetime?string.short} -
