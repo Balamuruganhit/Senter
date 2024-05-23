@@ -36,7 +36,7 @@
     
     Clone the project for the first time
     
-    abikrishnan1995@ofbiz-v1:~$ git clone -b dev-pangun https://github.com/sathishmtech01/ofbiz-docker-v1.git
+    abikrishnan1995@ofbiz-v1:~$ git clone -b dev-pangun-may24 https://github.com/sathishmtech01/ofbiz-docker-v1.git
     Cloning into 'ofbiz-docker-v1'...
     Username for 'https://github.com': sathishmtech01
     Password for 'https://sathishmtech01@github.com': 
@@ -150,10 +150,10 @@
       Copy code
       server {
       listen 443 ssl;
-      server_name neoerp.pangun.com;
+      server_name neoerp.pangun.tech;
    
-      ssl_certificate /etc/letsencrypt/live/neoerp.pangun.tech/fullchain.pem;
-      ssl_certificate_key /etc/letsencrypt/live/neoerp.pangun.tech/privkey.pem;
+      ssl_certificate /home/sathish_mtech01/fullchain.pem;
+      ssl_certificate_key /home/sathish_mtech01/privkey.pem;
 
          # SSL Configuration (adjust according to your needs)
          ssl_protocols TLSv1.2 TLSv1.3;
