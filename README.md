@@ -4,8 +4,8 @@
     
     - Create an VM
     - Install the followings
-        sudo apt install wget
-        sudo apt install git
+        sudo apt-get install wget -y
+        sudo apt-get install git -y
         
         # Install docker in linux debian 10 
         # Reference : https://docs.docker.com/engine/install/debian/, docker-compose https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-debian-10
