@@ -152,8 +152,8 @@
       listen 443 ssl;
       server_name neoerp.pangun.tech;
    
-      ssl_certificate /home/sathish_mtech01/fullchain.pem;
-      ssl_certificate_key /home/sathish_mtech01/privkey.pem;
+      ssl_certificate /home/ubuntu/fullchain.pem;
+      ssl_certificate_key /home/ubuntu/privkey.pem;
 
          # SSL Configuration (adjust according to your needs)
          ssl_protocols TLSv1.2 TLSv1.3;

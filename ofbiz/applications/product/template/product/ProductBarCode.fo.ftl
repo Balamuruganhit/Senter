@@ -21,8 +21,8 @@ under the License.
 <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
 
     <fo:layout-master-set>
-        <fo:simple-page-master master-name="main" page-height="4in" page-width="8in"
-                               margin-top="0.5in" margin-bottom="0.25in" margin-left="0.25in" margin-right="0.25in">
+        <fo:simple-page-master master-name="main" page-height="1.5in" page-width="2.5in"
+                               margin-top="0.1in" margin-bottom="0.1in" margin-left="0.1in" margin-right="0.1in">
             <fo:region-body margin-top="0in"/>
             <fo:region-before extent="0in"/>
             <fo:region-after extent="0in"/>
@@ -39,13 +39,13 @@ under the License.
                     <barcode:barcode xmlns:barcode="http://barcode4j.krysalis.org/ns"
                                      message="${productId}">
                         <barcode:code128>
-                            <barcode:height>0.75in</barcode:height>
-                            <barcode:module-width>.375mm</barcode:module-width>
+                            <barcode:height>20mm</barcode:height>
+                            <barcode:module-width>.45mm</barcode:module-width>
                         </barcode:code128>
                         <barcode:human-readable>
                             <barcode:placement>bottom</barcode:placement>
                             <barcode:font-name>Helvetica</barcode:font-name>
-                            <barcode:font-size>18pt</barcode:font-size>
+                            <barcode:font-size>14pt</barcode:font-size>
                             <barcode:display-start-stop>false</barcode:display-start-stop>
                             <barcode:display-checksum>false</barcode:display-checksum>
                         </barcode:human-readable>
