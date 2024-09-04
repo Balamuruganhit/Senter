@@ -262,19 +262,20 @@ dependencies {
     testImplementation 'org.jmockit:jmockit:1.49'
     testImplementation 'com.pholser:junit-quickcheck-generators:1.0'
 
-    runtimeOnly 'javax.xml.soap:javax.xml.soap-api:1.4.0'
-    runtimeOnly 'de.odysseus.juel:juel-spi:2.2.7'
-    runtimeOnly 'net.sf.barcode4j:barcode4j-fop-ext:2.1'
-    runtimeOnly 'net.sf.barcode4j:barcode4j:2.1'
-    runtimeOnly 'org.apache.axis2:axis2-transport-http:1.7.9' // Above: SOAPEventHandler.java:42: error: package org.apache.axiom.om.impl.builder does not exist
-    runtimeOnly 'org.apache.axis2:axis2-transport-local:1.7.9' // Above: SOAPEventHandler.java:42: error: package org.apache.axiom.om.impl.builder does not exist
-    runtimeOnly 'org.apache.derby:derby:10.14.2.0'  // So far we did not update from 10.14.2.0 because of a compile issue. You may try w/ a newer version than 10.15.1.3
-    runtimeOnly 'org.apache.geronimo.specs:geronimo-jaxrpc_1.1_spec:2.1'
-    runtimeOnly 'org.apache.logging.log4j:log4j-1.2-api:2.17.2' // for external jars using the old log4j1.2: routes logging to log4j 2
-    runtimeOnly 'org.apache.logging.log4j:log4j-jul:2.17.2' // for external jars using the java.util.logging: routes logging to log4j 2
-    runtimeOnly 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.2' // for external jars using slf4j: routes logging to log4j 2
-    runtimeOnly 'org.apache.logging.log4j:log4j-web:2.17.2' //???
-    runtimeOnly 'org.apache.logging.log4j:log4j-jcl:2.17.2' // need to constrain to version to avoid classpath conflict (ReflectionUtil)
+   runtimeOnly 'javax.xml.soap:javax.xml.soap-api:1.4.0'
+runtimeOnly 'de.odysseus.juel:juel-spi:2.2.7'
+runtimeOnly 'net.sf.barcode4j:barcode4j-fop-ext:2.1'
+runtimeOnly 'net.sf.barcode4j:barcode4j:2.1'
+runtimeOnly 'org.apache.axis2:axis2-transport-http:1.7.9'
+runtimeOnly 'org.apache.axis2:axis2-transport-local:1.7.9'
+runtimeOnly 'org.apache.derby:derby:10.14.2.0'  // You may try with a newer version than 10.15.1.3 if needed
+runtimeOnly 'org.apache.geronimo.specs:geronimo-jaxrpc_1.1_spec:2.1'
+runtimeOnly 'org.apache.logging.log4j:log4j-1.2-api:2.17.2'
+runtimeOnly 'org.apache.logging.log4j:log4j-jul:2.17.2'
+runtimeOnly 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.2'
+runtimeOnly 'org.apache.logging.log4j:log4j-web:2.17.2'
+runtimeOnly 'org.apache.logging.log4j:log4j-jcl:2.17.2'
+// need to constrain to version to avoid classpath conflict (ReflectionUtil)
 
     // Dependencies defined by the plugins
     subprojects.each { subProject ->
@@ -288,7 +289,7 @@ dependencies {
 
     // Libraries downloaded manually
     implementation fileTree(dir: file("${rootDir}/lib"), include: '**/*.jar')
-    getDirectoryInActiveComponentsIfExists('lib').each { libDir ->
+    ('lib').each { libDir ->
         implementation fileTree(dir: libDir, include: '**/*.jar')
     }
 }
