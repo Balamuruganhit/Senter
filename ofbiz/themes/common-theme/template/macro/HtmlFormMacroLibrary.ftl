@@ -28,7 +28,7 @@ under the License.
     <img src="${imageLocation}" alt=""><#lt/>
   <#else>
     <#if inPlaceEditorUrl?has_content || class?has_content || alert=="true" || title?has_content>
-      <span data-inplace-editor-url="${inPlaceEditorUrl}" data-inplace-editor-params="${inPlaceEditorParams}" <#if idName?has_content>id="cc_${idName}"</#if> <#if title?has_content>title="${title}"</#if> <@renderClass class alert />><#t/>
+      <span <#if inPlaceEditorUrl?has_content>data-inplace-editor-url="${inPlaceEditorUrl}" data-inplace-editor-params="${inPlaceEditorParams}"</#if> <#if idName?has_content>id="cc_${idName}"</#if> <#if title?has_content>title="${title}"</#if> <@renderClass class alert />><#t/>
     </#if>
 
     <#if description?has_content>
@@ -94,7 +94,7 @@ under the License.
   <span class="view-calendar">
     <#local cultureInfo = Static["org.apache.ofbiz.common.JsLanguageFilesMappingUtil"].getFile("datejs", .locale)/>
     <#local datePickerLang = Static["org.apache.ofbiz.common.JsLanguageFilesMappingUtil"].getFile("jquery", .locale)/>
-    <#local timePicker = "/common/js/node_modules/@chinchilla-software/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js,/common/js/node_modules/@chinchilla-software/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.css"/>
+    <#local timePicker = "/common/js/jquery/plugins/datetimepicker/jquery-ui-timepicker-addon-1.6.3.min.js,/common/js/jquery/plugins/datetimepicker/jquery-ui-timepicker-addon-1.6.3.min.css">
     <#local timePickerLang = Static["org.apache.ofbiz.common.JsLanguageFilesMappingUtil"].getFile("dateTime", .locale)/>
     <#if dateType!="time" >
       <input type="text" <#if tabindex?has_content> tabindex="${tabindex}"</#if> name="${name}_i18n" <@renderClass className alert /><#rt/>
@@ -432,7 +432,7 @@ under the License.
   <#local shortDateInput = "date" == dateType/>
   <#local cultureInfo = Static["org.apache.ofbiz.common.JsLanguageFilesMappingUtil"].getFile("datejs", .locale)/>
   <#local datePickerLang = Static["org.apache.ofbiz.common.JsLanguageFilesMappingUtil"].getFile("jquery", .locale)/>
-  <#local timePicker = "/common/js/node_modules/@chinchilla-software/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js,/common/js/node_modules/@chinchilla-software/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.css"/>
+  <#local timePicker = "/common/js/jquery/plugins/datetimepicker/jquery-ui-timepicker-addon-1.6.3.min.js,/common/js/jquery/plugins/datetimepicker/jquery-ui-timepicker-addon-1.6.3.min.css"/>
   <#local timePickerLang = Static["org.apache.ofbiz.common.JsLanguageFilesMappingUtil"].getFile("dateTime", .locale)/>
   <span class="view-calendar">
     <input id="${id}_fld0_value" type="text" <@renderClass className alert />
@@ -735,7 +735,7 @@ Parameter: delegatorName, String, optional - name of the delegator in context.
     <#if confirmation?has_content> onclick="return confirm('${confirmation?js_string}')"</#if>>
       <#if imgSrc?has_content><img src="${imgSrc}" alt=""/></#if>${description}</a>
 </#macro>
-<#macro makeHyperlinkString hiddenFormName imgSrc title  alternate linkUrl description linkStyle="" event="" action="" targetParameters="" targetWindow="" confirmation="" uniqueItemName="" height="" width="" id="">
+<#macro makeHyperlinkString hiddenFormName imgSrc imgTitle title alternate linkUrl description linkStyle="" event="" action="" targetParameters="" targetWindow="" confirmation="" uniqueItemName="" height="" width="" id="">
     <#if uniqueItemName?has_content>
         <#local params = "{&quot;presentation&quot;: &quot;layer&quot;">
         <#if targetParameters?has_content && !targetParameters?is_hash>
@@ -760,7 +760,7 @@ Parameter: delegatorName, String, optional - name of the delegator in context.
       <#if action?has_content && event?has_content> ${event}="${action}"</#if>
       <#if confirmation?has_content> data-confirm-message="${confirmation}"</#if>
       <#if id?has_content> id="${id}"</#if>
-      <#if imgSrc?length == 0 && title?has_content> title="${title}"</#if>>
-      <#if imgSrc?has_content><img src="${imgSrc}" alt="${alternate}" title="${title}"/></#if>${description?html}</a>
+      <#if title?has_content> title="${title}"</#if>>
+      <#if imgSrc?has_content><img src="${imgSrc}" alt="${alternate}" <#if imgTitle?has_content>title="${imgTitle}"</#if>/></#if>${description?html}</a>
     </#if>
 </#macro>

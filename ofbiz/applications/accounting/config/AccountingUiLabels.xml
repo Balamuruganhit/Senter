@@ -7312,7 +7312,7 @@
     <property key="AccountingInvNr">
         <value xml:lang="ar">رقم الفاتورة</value>
         <value xml:lang="cs">Číslo faktury</value>
-        <value xml:lang="de">Inv.Nr</value>
+        <value xml:lang="de">Rg.Nr</value>
         <value xml:lang="en">Inv.Nr</value>
         <value xml:lang="es">Nr.Fact</value>
         <value xml:lang="es-CL">Factura N°</value>
@@ -22296,7 +22296,7 @@
         <value xml:lang="de">Hauptbuch Transaktion</value>
         <value xml:lang="en">a Gl Transaction</value>
         <value xml:lang="es">uno Transaccione GL</value>
-        <value xml:lang="fr">une transaction comptable</value>
+        <value xml:lang="fr">une opération comptable</value>
         <value xml:lang="ja">GLトランザクション</value>
         <value xml:lang="pt">Transaçõe contábei</value>
     </property>

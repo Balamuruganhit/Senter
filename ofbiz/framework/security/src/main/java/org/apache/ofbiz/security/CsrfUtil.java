@@ -54,12 +54,13 @@ public final class CsrfUtil {
             .parseLong(UtilProperties.getPropertyValue("security", "csrf.cache.size", "5000"));
     private static LinkedHashMap<String, Map<String, Map<String, String>>> csrfTokenCache =
             new LinkedHashMap<String, Map<String, Map<String, String>>>() {
-        private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
-        protected boolean removeEldestEntry(Map.Entry<String, Map<String, Map<String, String>>> eldest) {
-            return size() > cacheSize; // TODO use also csrf.cache.size here?
-        }
-    };
+                @Override
+                protected boolean removeEldestEntry(Map.Entry<String, Map<String, Map<String, String>>> eldest) {
+                    return size() > cacheSize; // TODO use also csrf.cache.size here?
+                }
+            };
 
     private CsrfUtil() {
     }
@@ -68,9 +69,11 @@ public final class CsrfUtil {
         try {
             String className = UtilProperties.getPropertyValue("security", "csrf.defense.strategy",
                     NoCsrfDefenseStrategy.class.getCanonicalName());
-            Class<?> c = Class.forName(className);
+            Class<? extends ICsrfDefenseStrategy> c =
+                    Class.forName(className).asSubclass(
+                            ICsrfDefenseStrategy.class);
             strategyCanonicalName = c.getCanonicalName();
-            setStrategy((ICsrfDefenseStrategy) c.newInstance());
+            setStrategy(c.getConstructor().newInstance());
         } catch (Exception e) {
             Debug.logError(e, MODULE);
             setStrategy(new NoCsrfDefenseStrategy());
@@ -99,6 +102,7 @@ public final class CsrfUtil {
                 tokenMap = new LinkedHashMap<String, String>() {
                     private static final long serialVersionUID = 1L;
 
+                    @Override
                     protected boolean removeEldestEntry(Map.Entry<String, String> eldest) {
                         return size() > cacheSize;
                     }
@@ -111,6 +115,7 @@ public final class CsrfUtil {
                 tokenMap = new LinkedHashMap<String, String>() {
                     private static final long serialVersionUID = 1L;
 
+                    @Override
                     protected boolean removeEldestEntry(Map.Entry<String, String> eldest) {
                         return size() > cacheSize;
                     }

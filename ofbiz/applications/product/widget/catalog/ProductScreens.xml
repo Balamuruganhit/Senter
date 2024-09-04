@@ -89,7 +89,7 @@ under the License.
             </widgets>
         </section>
     </screen>
-    
+
     <screen name="FindProduct">
         <section>
             <actions>
@@ -167,6 +167,7 @@ under the License.
                 <set field="titleProperty" value="PageTitleEditProductPrices"/>
                 <set field="tabButtonItem" value="EditProductPrices"/>
                 <set field="labelTitleProperty" value="ProductPrices"/>
+
                 <entity-and entity-name="ProductPrice" list="productPrices">
                     <field-map field-name="productId" from-field="parameters.productId"/>
                     <order-by field-name="productStoreGroupId"/>
@@ -175,35 +176,19 @@ under the License.
                     <order-by field-name="currencyUomId"/>
                     <order-by field-name="fromDate"/>
                 </entity-and>
+
                 <property-to-field field="defaultCurrencyUomId" resource="general" property="currency.uom.id.default" default="USD"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonProductDecorator" location="${parameters.productDecoratorLocation}">
                     <decorator-section name="body">
-                        <section>
-                            <condition>
-                                <and>
-                                    <or>
-                                        <if-has-permission permission="CATALOG" action="_CREATE"/>
-                                        <if-has-permission permission="CATALOG" action="_UPDATE"/>
-                                    </or>
-                                </and>
-                            </condition>
-                            <widgets>
-                                <screenlet title="${uiLabelMap.PageTitleEditProductPrices}">
-                                    <include-grid name="UpdateProductPrice" location="component://product/widget/catalog/ProductForms.xml"/>
-                                </screenlet>
-                                <screenlet title="${uiLabelMap.PageTitleAddProductPrices}">
-                                    <label style="h3" text="${uiLabelMap.ProductPricesWarning}"/>
-                                    <include-form name="AddProductPrice" location="component://product/widget/catalog/ProductForms.xml"/>
-                                </screenlet>
-                            </widgets>
-                            <fail-widgets>
-                                <screenlet id="ProductPrices">
-                                    <include-grid name="ProductPrices" location="component://product/widget/catalog/ProductForms.xml"/>
-                                </screenlet>
-                            </fail-widgets>
-                        </section>
+                        <screenlet title="${uiLabelMap.PageTitleEditProductPrices}">
+                            <include-grid name="UpdateProductPrice" location="component://product/widget/catalog/ProductForms.xml"/>
+                        </screenlet>
+                        <screenlet title="${uiLabelMap.PageTitleAddProductPrices}">
+                            <label style="h3" text="${uiLabelMap.ProductPricesWarning}"/>
+                            <include-form name="AddProductPrice" location="component://product/widget/catalog/ProductForms.xml"/>
+                        </screenlet>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -1048,11 +1033,11 @@ under the License.
                                 <widgets>
                                     <screenlet title="${assocSection.sectionTitle}">
                                         <include-grid name="ListProductAssocs" location="component://product/widget/catalog/ProductForms.xml"/>
+                                        <label style="help-note">${uiLabelMap.CommonNote} : ${uiLabelMap.ProductHighlightedExplanation}</label>
                                     </screenlet>
-                                    <label style="tooltip">${uiLabelMap.CommonNote} : ${uiLabelMap.ProductHighlightedExplanation}</label>
                                 </widgets>
                             </section>
-                        </iterate-section>  
+                        </iterate-section>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -1260,7 +1245,7 @@ under the License.
                         <screenlet title="${uiLabelMap.PageTitleEditProductParties}">
                             <include-grid name="UpdateProductRole" location="component://product/widget/catalog/ProductForms.xml"/>
                         </screenlet>
-                        
+
                         <screenlet title="${uiLabelMap.ProductAssociatePartyToProduct}">
                             <include-form name="AddProductRole" location="component://product/widget/catalog/ProductForms.xml"/>
                         </screenlet>
@@ -1388,7 +1373,7 @@ under the License.
             </widgets>
         </section>
     </screen>
-    
+
     <screen name="ProductPriceHistory">
         <section>
             <actions>

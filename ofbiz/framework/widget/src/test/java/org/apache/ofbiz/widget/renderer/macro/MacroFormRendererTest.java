@@ -145,7 +145,7 @@ public class MacroFormRendererTest {
     }
 
     @Test
-    public void displayFieldRendersFieldWithTooltip(@Mocked ModelFormField.DisplayField displayField) {
+    public void displayFieldRendersFieldWithTooltip(@Mocked ModelFormField.DisplayField displayField) throws IOException {
         new Expectations() {
             {
                 renderableFtlFormElementsBuilder.displayField(withNotNull(), withNotNull(), anyBoolean);
@@ -163,7 +163,7 @@ public class MacroFormRendererTest {
     @Test
     public void displayEntityFieldRendersFieldWithLinkAndTooltip(
             @Mocked ModelFormField.DisplayEntityField displayEntityField,
-            @Mocked ModelFormField.SubHyperlink subHyperlink) {
+            @Mocked ModelFormField.SubHyperlink subHyperlink) throws IOException {
         new Expectations() {
             {
                 renderableFtlFormElementsBuilder.displayField(withNotNull(), withNotNull(), anyBoolean);
@@ -885,6 +885,57 @@ public class MacroFormRendererTest {
 
         assertAndGetMacroString("renderSortField", ImmutableMap.of(
                 "linkUrl", new FreemarkerRawString(linkFromQbeString)));
+    }
+
+    @Test
+    public void hyperlinkFieldMacroRenderedTitleNotTruncated(@Mocked ModelFormField.HyperlinkField hyperlinkField) throws IOException {
+        final String description = "DESCRIPTION";
+        final String title = "TITLE";
+
+        new Expectations() {
+            {
+                hyperlinkField.getDescription(withNotNull()); result = description;
+                hyperlinkField.getTarget(withNotNull()); result = "#";
+                request.getAttribute("title"); result = title;
+            }
+        };
+
+        macroFormRenderer.renderHyperlinkField(appendable, new HashMap<>(), hyperlinkField);
+        assertAndGetMacroString("makeHyperlinkString", ImmutableMap.of("description", description, "title", title));
+    }
+
+    @Test
+    public void hyperlinkFieldMacroRenderedTruncatedNoTitle(@Mocked ModelFormField.HyperlinkField hyperlinkField) throws IOException {
+        final String description = "DESCRIPTION";
+
+        new Expectations() {
+            {
+                hyperlinkField.getDescription(withNotNull()); result = description;
+                hyperlinkField.getTarget(withNotNull()); result = "#";
+                request.getAttribute("descriptionSize"); result = 5;
+            }
+        };
+
+        macroFormRenderer.renderHyperlinkField(appendable, new HashMap<>(), hyperlinkField);
+        assertAndGetMacroString("makeHyperlinkString", ImmutableMap.of("description", "DESCR…", "title", description));
+    }
+
+    @Test
+    public void hyperlinkFieldMacroRenderedTruncatedWithTitle(@Mocked ModelFormField.HyperlinkField hyperlinkField) throws IOException {
+        final String description = "DESCRIPTION";
+        final String title = "TITLE";
+
+        new Expectations() {
+            {
+                hyperlinkField.getDescription(withNotNull()); result = description;
+                hyperlinkField.getTarget(withNotNull()); result = "#";
+                hyperlinkField.getTitle(); result = title;
+                request.getAttribute("descriptionSize"); result = 5;
+            }
+        };
+
+        macroFormRenderer.renderHyperlinkField(appendable, new HashMap<>(), hyperlinkField);
+        assertAndGetMacroString("makeHyperlinkString", ImmutableMap.of("description", "DESCR…", "title", description));
     }
 
     private String assertAndGetMacroString(final String expectedName) {

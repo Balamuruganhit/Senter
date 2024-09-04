@@ -394,9 +394,9 @@ public final class RequestHandler {
         Collection<RequestMap> rmaps = resolveURI(ccfg, request);
         if (rmaps.isEmpty()) {
             if (throwRequestHandlerExceptionOnMissingLocalRequest) {
-                if (path.contains("/checkLogin/")) {
-                    // Nested requests related with checkLogin uselessly clutter the log. There is nothing to worry about, better remove this wrong
-                    // error message.
+                if (path.contains("/checkLogin/") || path.contains("/sendconfirmationmail/")) {
+                    // Nested requests related with checkLogin and sendconfirmationmail are OK.
+                    // There is nothing to worry about, better remove these wrong errors messages.
                     return;
                 } else if (path.contains("/images/") || path.contains("d.png")) {
                     if (Debug.warningOn()) {
@@ -629,7 +629,7 @@ public final class RequestHandler {
                     requestMap = ccfg.getRequestMapMap().get("ajaxCheckLogin");
                 }
             }
-        } else {
+        } else if (requestUri != null) {
             String[] loginUris = EntityUtilProperties.getPropertyValue("security", "login.uris", delegator).split(",");
             boolean removePreviousRequest = true;
             for (int i = 0; i < loginUris.length; i++) {

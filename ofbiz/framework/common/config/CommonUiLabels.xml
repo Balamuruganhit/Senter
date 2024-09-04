@@ -5957,7 +5957,6 @@
         <value xml:lang="en">Invoice</value>
         <value xml:lang="es">Factura</value>
         <value xml:lang="es-MX">Factura</value>
-        <value xml:lang="fr">Facture</value>
         <value xml:lang="nl">Factuur</value>
     </property>
     <property key="CommonIsA">
@@ -9436,6 +9435,14 @@
         <value xml:lang="zh-CN">处理中</value>
         <value xml:lang="zh-TW">處理中</value>
     </property>
+    <property key="CommonProduct">
+        <value xml:lang="en">Product</value>
+        <value xml:lang="es">Producto</value>
+        <value xml:lang="es-CL">Producto</value>
+        <value xml:lang="es-MX">Producto</value>
+        <value xml:lang="nl">Product</value>
+        <value xml:lang="zh">产品</value>
+    </property>
     <property key="CommonProductRating"><!--  Used to demark the section where ProductRating setting are made. -->
         <value xml:lang="de">Bewertung</value>
         <value xml:lang="en">Rating</value>
@@ -9935,7 +9942,7 @@
         <value xml:lang="ar">مستخدم مسجل</value>
         <value xml:lang="cs">Registrovaný uživatel</value>
         <value xml:lang="de">Registrierter Nutzer</value>
-        <value xml:lang="en">Registered User</value>
+        <value xml:lang="en">Sign In</value>
         <value xml:lang="es">Usuario registrado</value>
         <value xml:lang="fr">Utilisateur enregistré</value>
         <value xml:lang="hi-IN">पंजीकृत उपयोगकर्ता</value>
@@ -13524,6 +13531,20 @@
         <value xml:lang="en">with</value>
         <value xml:lang="es">con</value>
         <value xml:lang="fr">avec</value>
+    </property>
+    <property key="CommonWorkEffort">
+        <value xml:lang="en">Work Effort</value>
+        <value xml:lang="es">Esfuerzo de Trabajo</value>
+        <value xml:lang="es-MX">Esfuerzo de Trabajo</value>
+        <value xml:lang="nl">Activiteit</value>
+        <value xml:lang="zh">人工服务</value>
+    </property>
+    <property key="CommonWorkEfforts">
+        <value xml:lang="en">Work Efforts</value>
+        <value xml:lang="es">Esfuerzos de Trabajo</value>
+        <value xml:lang="es-MX">Esfuerzos de Trabajo</value>
+        <value xml:lang="nl">Activiteiten</value>
+        <value xml:lang="zh">人工服务</value>
     </property>
     <property key="CommonWorkflowActivityUser">
         <value xml:lang="ar">مهام سيرورة العمل المعينة للمستخدم</value>

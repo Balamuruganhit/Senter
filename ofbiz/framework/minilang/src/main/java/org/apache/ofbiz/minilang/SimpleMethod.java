@@ -469,8 +469,8 @@ public final class SimpleMethod extends MiniLangElement {
             methodContext.putEnv(eventResponseName, methodContext.getResponse());
         }
         methodContext.putEnv("simpleMethod", this);
-        methodContext.putEnv("methodName", this.getMethodName());
-        methodContext.putEnv("methodShortDescription", this.getShortDescription());
+        methodContext.putEnv("methodName", getMethodName());
+        methodContext.putEnv("methodShortDescription", getShortDescription());
         // if using transaction, try to start here
         boolean beganTransaction = false;
         if (useTransaction) {
@@ -497,7 +497,13 @@ public final class SimpleMethod extends MiniLangElement {
             finished = runSubOps(methodOperations, methodContext);
         } catch (Throwable t) {
             // make SURE nothing gets thrown through
-            String errMsg = UtilProperties.getMessage(ERR_RESOURCE, "simpleMethod.error_running", locale) + ": " + t.getMessage();
+            String errorMessage = t.getMessage();
+            if (errorMessage.contains("File = file") && errorMessage.contains("Events.xml")) {
+                String noFile = errorMessage.substring(errorMessage.indexOf("File = file"),
+                        errorMessage.indexOf("Events.xml") + "Events.xml".length());
+                errorMessage = errorMessage.replace(noFile, "");
+            }
+            String errMsg = UtilProperties.getMessage(ERR_RESOURCE, "simpleMethod.error_running", locale) + ": " + errorMessage;
             if (methodContext.isTraceOn()) {
                 outputTraceMessage(methodContext, "An exception was thrown while running sub-elements, error message was:", errMsg);
             }
@@ -625,8 +631,7 @@ public final class SimpleMethod extends MiniLangElement {
             }
             // rollback here passing beganTransaction to either rollback, or set rollback only
             try {
-                TransactionUtil.rollback(beganTransaction, "Error in simple-method [" + this.getShortDescription() + "]: "
-                        + summaryErrorStringBuffer, null);
+                TransactionUtil.rollback(beganTransaction, summaryErrorStringBuffer.toString(), null);
             } catch (GenericTransactionException e) {
                 String errMsg = "Error trying to rollback transaction, could not process method: " + e.getMessage();
                 if (methodContext.isTraceOn()) {
@@ -643,7 +648,7 @@ public final class SimpleMethod extends MiniLangElement {
 
     @Override
     public void gatherArtifactInfo(ArtifactInfoContext aic) {
-        for (MethodOperation methodOp : this.methodOperations) {
+        for (MethodOperation methodOp : methodOperations) {
             methodOp.gatherArtifactInfo(aic);
         }
     }
@@ -663,92 +668,92 @@ public final class SimpleMethod extends MiniLangElement {
     }
 
     public String getDefaultErrorCode() {
-        return this.defaultErrorCode;
+        return defaultErrorCode;
     }
 
     public String getDefaultSuccessCode() {
-        return this.defaultSuccessCode;
+        return defaultSuccessCode;
     }
 
     public String getEventErrorMessageListName() {
-        return this.eventErrorMessageListName;
+        return eventErrorMessageListName;
     }
 
     public String getEventErrorMessageName() {
-        return this.eventErrorMessageName;
+        return eventErrorMessageName;
     }
 
     public String getEventEventMessageListName() {
-        return this.eventEventMessageListName;
+        return eventEventMessageListName;
     }
 
     public String getEventEventMessageName() {
-        return this.eventEventMessageName;
+        return eventEventMessageName;
     }
 
     // event fields
     public String getEventRequestName() {
-        return this.eventRequestName;
+        return eventRequestName;
     }
 
     public String getEventResponseCodeName() {
-        return this.eventResponseCodeName;
+        return eventResponseCodeName;
     }
 
     public String getEventSessionName() {
-        return this.eventSessionName;
+        return eventSessionName;
     }
 
     public String getFileName() {
-        return this.fromLocation.substring(this.fromLocation.lastIndexOf("/") + 1);
+        return fromLocation.substring(fromLocation.lastIndexOf("/") + 1);
     }
 
     public String getFromLocation() {
-        return this.fromLocation;
+        return fromLocation;
     }
 
     public String getLocationAndName() {
-        return this.fromLocation + "#" + this.methodName;
+        return fromLocation + "#" + methodName;
     }
 
     public boolean getLoginRequired() {
-        return this.loginRequired;
+        return loginRequired;
     }
 
     public String getMethodName() {
-        return this.methodName;
+        return methodName;
     }
 
     public List<MethodOperation> getMethodOperations() {
-        return this.methodOperations;
+        return methodOperations;
     }
 
     public String getServiceErrorMessageListName() {
-        return this.serviceErrorMessageListName;
+        return serviceErrorMessageListName;
     }
 
     public String getServiceErrorMessageMapName() {
-        return this.serviceErrorMessageMapName;
+        return serviceErrorMessageMapName;
     }
 
     public String getServiceErrorMessageName() {
-        return this.serviceErrorMessageName;
+        return serviceErrorMessageName;
     }
 
     public String getServiceResponseMessageName() {
-        return this.serviceResponseMessageName;
+        return serviceResponseMessageName;
     }
 
     public String getServiceSuccessMessageListName() {
-        return this.serviceSuccessMessageListName;
+        return serviceSuccessMessageListName;
     }
 
     public String getServiceSuccessMessageName() {
-        return this.serviceSuccessMessageName;
+        return serviceSuccessMessageName;
     }
 
     public String getShortDescription() {
-        return this.shortDescription + " [" + this.fromLocation + "#" + this.methodName + "]";
+        return shortDescription + " [" + getFileName() + "#" + methodName + "]";
     }
 
     @Override
@@ -757,7 +762,7 @@ public final class SimpleMethod extends MiniLangElement {
     }
 
     public boolean getUseTransaction() {
-        return this.useTransaction;
+        return useTransaction;
     }
 
     private String returnError(MethodContext methodContext, String errorMsg) {

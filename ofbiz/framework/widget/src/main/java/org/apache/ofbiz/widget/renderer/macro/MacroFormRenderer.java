@@ -183,14 +183,21 @@ public final class MacroFormRenderer implements FormStringRenderer {
     }
 
     @Override
-    public void renderDisplayField(Appendable writer, Map<String, Object> context, DisplayField displayField) {
-        writeFtlElement(writer,
-                renderableFtlFormElementsBuilder.displayField(context, displayField, this.javaScriptEnabled));
+    public void renderDisplayField(Appendable writer, Map<String, Object> context, DisplayField displayField)
+            throws IOException {
+        if (displayField instanceof DisplayEntityField
+                && ((DisplayEntityField) displayField).needConvertAsHyperlink(context)) {
 
-        if (displayField instanceof DisplayEntityField) {
+            // When we have a subHyperlink on a display entity, display all as a hyperlink
+            renderHyperlinkField(writer, context, ((DisplayEntityField) displayField).asHyperlink(context));
+        } else {
             writeFtlElement(writer,
-                    renderableFtlFormElementsBuilder.makeHyperlinkString(((DisplayEntityField) displayField).getSubHyperlink(),
-                            context));
+                    renderableFtlFormElementsBuilder.displayField(context, displayField, this.javaScriptEnabled));
+            if (displayField instanceof DisplayEntityField) {
+                writeFtlElement(writer,
+                        renderableFtlFormElementsBuilder.makeHyperlinkString(((DisplayEntityField) displayField).getSubHyperlink(),
+                                context));
+            }
         }
 
         final ModelFormField modelFormField = displayField.getModelFormField();
@@ -198,7 +205,8 @@ public final class MacroFormRenderer implements FormStringRenderer {
     }
 
     @Override
-    public void renderHyperlinkField(Appendable writer, Map<String, Object> context, HyperlinkField hyperlinkField) throws IOException {
+    public void renderHyperlinkField(Appendable writer, Map<String, Object> context, HyperlinkField hyperlinkField)
+            throws IOException {
         this.request.setAttribute("image", hyperlinkField.getImageLocation(context));
         ModelFormField modelFormField = hyperlinkField.getModelFormField();
         String encodedAlternate = encode(hyperlinkField.getAlternate(context), modelFormField, context);
@@ -207,6 +215,7 @@ public final class MacroFormRenderer implements FormStringRenderer {
         this.request.setAttribute("imageTitle", encodedImageTitle);
         this.request.setAttribute("descriptionSize", hyperlinkField.getSize());
         this.request.setAttribute("id", modelFormField.getCurrentContainerId(context));
+        this.request.setAttribute("title", hyperlinkField.getTitle());
         this.request.setAttribute("width", hyperlinkField.getWidth());
         this.request.setAttribute("height", hyperlinkField.getHeight());
         makeHyperlinkByType(writer, hyperlinkField.getLinkType(), modelFormField.getWidgetStyle(), hyperlinkField.getUrlMode(),
@@ -250,7 +259,7 @@ public final class MacroFormRenderer implements FormStringRenderer {
             }
         }
         //check for required field style on single forms
-        if ("single".equals(modelFormField.getModelForm().getType()) && modelFormField.getRequiredField()) {
+        if (shouldApplyRequiredField(modelFormField)) {
             String requiredStyle = modelFormField.getRequiredFieldStyle();
             if (UtilValidate.isEmpty(requiredStyle)) {
                 requiredStyle = "required";
@@ -320,6 +329,12 @@ public final class MacroFormRenderer implements FormStringRenderer {
         executeMacro(writer, sr.toString());
         this.addAsterisks(writer, context, modelFormField);
         this.appendTooltip(writer, context, modelFormField);
+    }
+
+    private boolean shouldApplyRequiredField(ModelFormField modelFormField) {
+        return ("single".equals(modelFormField.getModelForm().getType())
+                || "upload".equals(modelFormField.getModelForm().getType()))
+                && modelFormField.getRequiredField();
     }
 
     @Override
@@ -486,7 +501,7 @@ public final class MacroFormRenderer implements FormStringRenderer {
             }
         }
         //check for required field style on single forms
-        if ("single".equals(modelFormField.getModelForm().getType()) && modelFormField.getRequiredField()) {
+        if (shouldApplyRequiredField(modelFormField)) {
             String requiredStyle = modelFormField.getRequiredFieldStyle();
             if (UtilValidate.isEmpty(requiredStyle)) {
                 requiredStyle = "required";
@@ -633,7 +648,7 @@ public final class MacroFormRenderer implements FormStringRenderer {
             }
         }
         //check for required field style on single forms
-        if ("single".equals(modelFormField.getModelForm().getType()) && modelFormField.getRequiredField()) {
+        if (shouldApplyRequiredField(modelFormField)) {
             String requiredStyle = modelFormField.getRequiredFieldStyle();
             if (UtilValidate.isEmpty(requiredStyle)) {
                 requiredStyle = "required";
@@ -1196,7 +1211,7 @@ public final class MacroFormRenderer implements FormStringRenderer {
         }
         if (!sb.toString().isEmpty()) {
             //check for required field style on single forms
-            if ("single".equals(modelFormField.getModelForm().getType()) && modelFormField.getRequiredField()) {
+            if (shouldApplyRequiredField(modelFormField)) {
                 String requiredStyle = modelFormField.getRequiredFieldStyle();
                 if (UtilValidate.isNotEmpty(requiredStyle)) {
                     style = requiredStyle;
@@ -2058,7 +2073,7 @@ public final class MacroFormRenderer implements FormStringRenderer {
             }
         }
         //check for required field style on single forms
-        if ("single".equals(modelFormField.getModelForm().getType()) && modelFormField.getRequiredField()) {
+        if (shouldApplyRequiredField(modelFormField)) {
             String requiredStyle = modelFormField.getRequiredFieldStyle();
             if (UtilValidate.isEmpty(requiredStyle)) {
                 requiredStyle = "required";
@@ -2365,7 +2380,7 @@ public final class MacroFormRenderer implements FormStringRenderer {
         if (listSize > 0 && this.javaScriptEnabled) {
             if (ajaxEnabled) {
                 ajaxSelectUrl = MacroCommonRenderer.createAjaxParamsFromUpdateAreas(updateAreas, null, modelForm,
-                        prepLinkText + "' + this.value + '", context);
+                        prepLinkText + "' + (this.value - 1) + '", context);
             } else {
                 linkText = prepLinkText;
                 if (linkText.startsWith("/")) {
@@ -2559,7 +2574,7 @@ public final class MacroFormRenderer implements FormStringRenderer {
         }
 
         //check for required field style on single forms
-        if ("single".equals(modelFormField.getModelForm().getType()) && modelFormField.getRequiredField()) {
+        if (shouldApplyRequiredField(modelFormField)) {
             String requiredStyle = modelFormField.getRequiredFieldStyle();
             if (UtilValidate.isEmpty(requiredStyle)) {
                 requiredStyle = "required";
@@ -2915,7 +2930,9 @@ public final class MacroFormRenderer implements FormStringRenderer {
                 writer.append(hiddenFormElement.outerHtml());
                 final Element anchorElement = WidgetWorker.makeHiddenFormLinkAnchorElement(linkStyle,
                         encodedDescription, confirmation, modelFormField, request, context);
-                writer.append(anchorElement.outerHtml());
+                if (anchorElement != null) {
+                    writer.append(anchorElement.outerHtml());
+                }
             }
         } else {
             if ("layered-modal".equals(realLinkType)) {
@@ -2955,12 +2972,13 @@ public final class MacroFormRenderer implements FormStringRenderer {
             String event = "";
             String action = "";
             String imgSrc = "";
+            String imgTitle = "";
             String alt = "";
             String id = "";
             String uniqueItemName = "";
             String width = "";
             String height = "";
-            String imgTitle = "";
+            String title = "";
             String hiddenFormName = WidgetWorker.makeLinkHiddenFormName(context, modelFormField);
             if (UtilValidate.isNotEmpty(modelFormField.getEvent()) && UtilValidate.isNotEmpty(modelFormField.getAction(context))) {
                 event = modelFormField.getEvent();
@@ -2969,22 +2987,22 @@ public final class MacroFormRenderer implements FormStringRenderer {
             if (UtilValidate.isNotEmpty(request.getAttribute("image"))) {
                 imgSrc = request.getAttribute("image").toString();
             }
-            if (UtilValidate.isNotEmpty(request.getAttribute("alternate"))) {
-                alt = request.getAttribute("alternate").toString();
-            }
             if (UtilValidate.isNotEmpty(request.getAttribute("imageTitle"))) {
                 imgTitle = request.getAttribute("imageTitle").toString();
             }
-            Integer size = Integer.valueOf("0");
+            if (UtilValidate.isNotEmpty(request.getAttribute("alternate"))) {
+                alt = request.getAttribute("alternate").toString();
+            }
+            int size = 0;
             if (UtilValidate.isNotEmpty(request.getAttribute("descriptionSize"))) {
-                size = Integer.valueOf(request.getAttribute("descriptionSize").toString());
+                size = Integer.parseInt(request.getAttribute("descriptionSize").toString());
             }
+            // if description is truncated, always use description as title
             if (UtilValidate.isNotEmpty(description) && size > 0 && description.length() > size) {
-                imgTitle = description;
-                description = description.substring(0, size - 8) + "..." + description.substring(description.length() - 5);
-            }
-            if (UtilValidate.isEmpty(imgTitle)) {
-                imgTitle = modelFormField.getTitle(context);
+                title = description;
+                description = description.substring(0, size) + "…";
+            } else if (UtilValidate.isNotEmpty(request.getAttribute("title"))) {
+                title = request.getAttribute("title").toString();
             }
             if (UtilValidate.isNotEmpty(request.getAttribute("id"))) {
                 id = request.getAttribute("id").toString();
@@ -3021,8 +3039,10 @@ public final class MacroFormRenderer implements FormStringRenderer {
             sr.append(action);
             sr.append("\" imgSrc=\"");
             sr.append(imgSrc);
-            sr.append("\" title=\"");
+            sr.append("\" imgTitle=\"");
             sr.append(imgTitle);
+            sr.append("\" title=\"");
+            sr.append(title);
             sr.append("\" alternate=\"");
             sr.append(alt);
             sr.append("\" targetParameters=\"");

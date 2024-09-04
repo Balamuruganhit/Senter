@@ -20,15 +20,12 @@ under the License.
 <#assign nowTimestamp = Static["org.apache.ofbiz.base.util.UtilDateTime"].nowTimestamp()>
 
 <div id="footer">
-  <ul>
-    <li>
-      ${uiLabelMap.CommonCopyright} (c) 2023-${nowTimestamp?string("yyyy")} Pangun Technologies - <a href="http://www.pangun.tech<" target="_blank">www.pangun.tech</a><br/>
-      ${uiLabelMap.CommonPoweredBy} <a href="http://www.pangun.tech<" target="_blank">Pangun NeoERP</a>  ${uiLabelMap.CommonRelease}
-    </li>
-    <li class="opposed">${nowTimestamp?datetime?string.short} -
-  <a href="<@ofbizUrl>ListTimezones</@ofbizUrl>">${timeZone.getDisplayName(timeZone.useDaylightTime(), Static["java.util.TimeZone"].LONG, locale)}</a>
-    </li>
-  </ul>
+    <span>${nowTimestamp?datetime?string.short} - <a href="<@ofbizUrl>ListTimezones</@ofbizUrl>">${timeZone.toZoneId().getDisplayName(Static["java.time.format.TextStyle"].FULL_STANDALONE, locale)}</a></span>
+    <span> ${uiLabelMap.CommonCopyright} (c)  2023-${nowTimestamp?string("yyyy")}
+        <a href=""http://www.pangun.tech"" target="_blank">Pangun Technologies</a>.
+        Powered By <a href="http://www.pangun.tech" class="noicon">Pangun NeoERP </a>
+       
+    </span>
 </div>
 
 <#if layoutSettings.VT_FTR_JAVASCRIPT?has_content>

@@ -122,7 +122,12 @@ under the License.
             <widgets>
                 <decorator-screen name="CommonQuoteDecorator">
                     <decorator-section name="body">
-                        <screenlet title="${uiLabelMap.CommonWorkEfforts}">
+                        <screenlet title="${uiLabelMap.OrderOrderQuoteWorkEfforts}">
+                            <container style="basic-nav">
+                                <link target="AddQuoteWorkEffort" text="${uiLabelMap.OrderCreateQuoteWorkEffort}" style="buttontext">
+                                    <parameter param-name="quoteId"/>
+                                </link>
+                            </container>
                             <include-form name="ListQuoteWorkEfforts" location="component://order/widget/ordermgr/QuoteWorkEffortForms.xml"/>
                         </screenlet>
                     </decorator-section>

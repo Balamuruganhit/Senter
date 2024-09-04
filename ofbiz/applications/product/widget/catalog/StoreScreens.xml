@@ -53,26 +53,9 @@ under the License.
             <widgets>
                 <decorator-screen name="CommonProductStoreDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
-                        <section>
-                            <condition>
-                                <and>
-                                    <or>
-                                        <if-has-permission permission="CATALOG" action="_CREATE"/>
-                                        <if-has-permission permission="CATALOG" action="_UPDATE"/>
-                                    </or>
-                                </and>
-                            </condition>
-                            <widgets>
-                                <screenlet id="ProductStore">
-                                    <include-form name="EditProductStore" location="component://product/widget/catalog/StoreForms.xml"/>
-                                </screenlet>
-                            </widgets>
-                            <fail-widgets>
-                                <screenlet id="ProductStore">
-                                    <include-form name="ProductStore" location="component://product/widget/catalog/StoreForms.xml"/>
-                                </screenlet>
-                            </fail-widgets>
-                        </section>
+                        <screenlet title="${uiLabelMap.ProductProductStore}">
+                            <include-form name="EditProductStore" location="component://product/widget/catalog/StoreForms.xml"/>
+                        </screenlet>
                     </decorator-section>
                 </decorator-screen>
             </widgets>

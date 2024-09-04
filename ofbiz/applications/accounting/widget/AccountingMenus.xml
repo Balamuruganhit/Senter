@@ -79,6 +79,14 @@ under the License.
             </condition>
             <link target="newPayment"/>
         </menu-item>
+        <menu-item name="NewPaymentGroup" title="${uiLabelMap.CommonCreate} ${uiLabelMap.AccountingNewPaymentGroup}">
+            <condition>
+                <or>
+                    <if-has-permission permission="ACCOUNTING" action="_CREATE"/>
+                </or>
+            </condition>
+            <link target="EditPaymentGroup"/>
+        </menu-item>
     </menu>
 
     <menu name="AccountingShortcutAppBar" title="${uiLabelMap.AccountingManager}">
@@ -688,53 +696,38 @@ under the License.
             </link>
         </menu-item>
     </menu>
+
     <menu name="PaymentGroupTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml">
         <menu-item name="PaymentGroupOverview" title="${uiLabelMap.AccountingPaymentTabOverview}">
             <link target="PaymentGroupOverview">
                 <parameter param-name="paymentGroupId" from-field="paymentGroup.paymentGroupId"/>
             </link>
         </menu-item>
-        <menu-item name="EditPaymentGroupMember" title="${uiLabelMap.CommonPayments}">
+        <menu-item name="EditPaymentGroup" title="${uiLabelMap.CommonGroup}">
+            <condition><not><if-empty field="paymentGroup.paymentGroupId"/></not></condition>
+            <link target="EditPaymentGroup">
+                <parameter param-name="paymentGroupId" from-field="paymentGroup.paymentGroupId"/>
+            </link>
+        </menu-item>
+        <menu-item name="EditPaymentGroupMember" title="${uiLabelMap.AccountingGroupMembers}">
             <condition><not><if-empty field="paymentGroup.paymentGroupId"/></not></condition>
             <link target="EditPaymentGroupMember">
                 <parameter param-name="paymentGroupId" from-field="paymentGroup.paymentGroupId"/>
             </link>
         </menu-item>
     </menu>
+    
     <menu name="PaymentGroupSubTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
             menu-container-style="button-bar button-style-2">
         <menu-item name="createNew" title="${uiLabelMap.CommonCreate}" widget-style="buttontext create">
             <condition>
-                <and>
-                    <or>
-                        <if-has-permission permission="ACCOUNTING" action="_CREATE"/>
-                    </or>
-                    <not><if-empty field="paymentGroup"/></not>
-                </and>
+                <not><if-empty field="paymentGroup"/></not>
             </condition>
             <link target="EditPaymentGroup"/>
-        </menu-item>
-        <menu-item name="EditPaymentGroup" title="${uiLabelMap.CommonEdit}">
-            <condition>
-                <and>
-                    <or>
-                        <if-has-permission permission="ACCOUNTING" action="_CREATE"/>
-                        <if-has-permission permission="ACCOUNTING" action="_UPDATE"/>
-                    </or>
-                    <not><if-empty field="paymentGroup"/></not>
-                </and>
-            </condition>
-            <link target="EditPaymentGroup">
-                <parameter param-name="paymentGroupId" from-field="paymentGroup.paymentGroupId"/>
-            </link>
         </menu-item>
         <menu-item name="depositSlip" title="${uiLabelMap.AccountingDepositSlip}">
             <condition>
                 <and>
-                    <or>
-                        <if-has-permission permission="ACCOUNTING" action="_CREATE"/>
-                        <if-has-permission permission="ACCOUNTING" action="_UPDATE"/>
-                    </or>
                     <if-compare field="display" operator="equals" value="true"/>
                     <if-compare field="paymentGroup.paymentGroupTypeId" operator="equals" value="BATCH_PAYMENT"/>
                     <not><if-empty field="paymentGroupMembers"/></not>
@@ -747,10 +740,6 @@ under the License.
         <menu-item name="printCheck" title="${uiLabelMap.AccountingPrintChecks}">
             <condition>
                 <and>
-                    <or>
-                        <if-has-permission permission="ACCOUNTING" action="_CREATE"/>
-                        <if-has-permission permission="ACCOUNTING" action="_UPDATE"/>
-                    </or>
                     <if-compare field="display" operator="equals" value="true"/>
                     <if-compare field="paymentGroup.paymentGroupTypeId" operator="equals" value="CHECK_RUN"/>
                     <not><if-empty field="paymentGroupMembers"/></not>
@@ -763,10 +752,6 @@ under the License.
         <menu-item name="cancelpaymentGroup" title="${uiLabelMap.AccountingCancelBatchPayments}">
             <condition>
                 <and>
-                    <or>
-                        <if-has-permission permission="ACCOUNTING" action="_CREATE"/>
-                        <if-has-permission permission="ACCOUNTING" action="_UPDATE"/>
-                    </or>
                     <not><if-empty field="paymentGroupMembers"/></not>
                     <not><if-empty field="paymentGroup"/></not>
                     <if-empty field="glReconciliationId"/>
@@ -780,10 +765,6 @@ under the License.
         <menu-item name="cancelCheckRunPayments" title="${uiLabelMap.AccountingCancelCheckRun}">
             <condition>
                 <and>
-                    <or>
-                        <if-has-permission permission="ACCOUNTING" action="_CREATE"/>
-                        <if-has-permission permission="ACCOUNTING" action="_UPDATE"/>
-                    </or>
                     <not><if-empty field="paymentGroupMembers"/></not>
                     <not><if-empty field="paymentGroup"/></not>
                     <if-compare field="paymentGroup.paymentGroupTypeId" operator="equals" value="CHECK_RUN"/>
@@ -794,6 +775,7 @@ under the License.
             </link>
         </menu-item>
     </menu>
+
     <menu name="FixedAssetMaintTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
           selected-menuitem-context-field-name="tabButtonItemFixedAssetMaint" default-menu-item-name="EditFixedAssetMaint">
         <menu-item name="EditFixedAssetMaint" title="${uiLabelMap.AccountingFixedAssetMaint}">

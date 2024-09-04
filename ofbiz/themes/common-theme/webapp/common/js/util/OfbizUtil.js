@@ -23,6 +23,9 @@ var LAST_AUTOCOMP_REF = null;
 //default ajax request timeout in milliseconds
 var AJAX_REQUEST_TIMEOUT = 5000;
 
+// Search param : id of a link to be clicked right away
+var SP_CLICK_ON = 'clickOn';
+
 // Add observers on DOM ready.
 $(document).ready(function() {
     // add CSRF token to jQuery AJAX calls to the same domain
@@ -77,6 +80,14 @@ $(document).ready(function() {
     jQuery(document).ajaxSuccess(function () {
         initNamedBorders();
     });
+
+    // if clickOn search parameter is present, click on a#SP_CLICK_ON
+    const currentUrl = new URL(window.location.href);
+    const openModal = currentUrl.searchParams.get(SP_CLICK_ON);
+    const modalLink = jQuery(`#${openModal}`);
+    if (openModal && modalLink.length) {
+        modalLink.first().click();
+    }
 });
 
 /* bindObservers function contains the code of adding observers and it can be called for specific section as well
@@ -205,6 +216,17 @@ function bindObservers(bind_element) {
                     success: function(data) {
                         dialogContainer.html(data);
                         bindObservers(dialogContainer);
+                    },
+                    error: (xhr) => {
+                        // unauthorized user, reload page with the link id so we can reopen the modal
+                        if (xhr.status === 401) {
+                            const url = new URL(window.location.href);
+                            url.searchParams.append(SP_CLICK_ON, element.attr('id'));
+                            window.location.replace(url.toString());
+                        } else {
+                            // display some feedback in the modal body
+                            dialogContainer.text(`An unexpected server error occurred (status : ${xhr.status}).`);
+                        }
                     }
                 });
             }
@@ -931,13 +953,21 @@ function ajaxAutoCompleter(areaCsvString, showDescription, defaultMinLength, def
                 });
             },
             select: function(event, ui){
-                //jQuery("#" + areaArray[0]).html(ui.item);
-                jQuery("#" + areaArray[0]).val(ui.item.value); // setting a text field
-                if (showDescription && (ui.item.value != undefined && ui.item.value != '')) {
-                    setLookDescription(areaArray[0], ui.item.label, areaArray[2], formName, showDescription)
+                // search returned something
+                if(ui.item.id !== '') {
+                    $(`#${areaArray[0]}`).val(ui.item.value);
+                    if (showDescription && (ui.item.value != undefined && ui.item.value != '')) {
+                        setLookDescription(areaArray[0], ui.item.label, areaArray[2], formName, showDescription);
+                    }
+                } else {
+                    // empty the search input
+                    $(`#${areaArray[0]}`).val('');
+                    // cancel the selection (do not copy "no result found" in the search field)
+                    event.preventDefault();
                 }
             }
         });
+
         if (showDescription) {
             var lookupDescriptionLoader = new lookupDescriptionLoaded(areaArray[i], areaArray[i + 1], areaArray[i + 2], formName);
             lookupDescriptionLoader.update();
@@ -1251,11 +1281,9 @@ function showjGrowl(showAllLabel, collapseLabel, hideAllLabel, jGrowlPosition, j
 
 function showjGrowlMessage(errMessage, classEvent, stickyValue, showAllLabel, collapseLabel, hideAllLabel, jGrowlPosition, jGrowlWidth, jGrowlHeight, jGrowlSpeed) {
     if (!showAllLabel || !collapseLabel || !hideAllLabel) {
-        var jGrowlLabelObject = {
-            "CommonUiLabels": ["CommonHideAllNotifications", "CommonShowAll", "CommonCollapse"],
-        };
+        var jGrowlLabelObject = ["CommonHideAllNotifications", "CommonShowAll", "CommonCollapse"];
         getJSONuiLabels(jGrowlLabelObject, function (result) {
-            jGrowlLabelObject = result.responseJSON.CommonUiLabels;
+            jGrowlLabelObject = result.responseJSON;
         });
 
         if (!showAllLabel) showAllLabel = jGrowlLabelObject[2];
@@ -1391,10 +1419,10 @@ function getJSONuiLabels(requiredLabels, callback) {
 
     if (requiredLabels != null && requiredLabels != "") {
         jQuery.ajax({
-            url: "getJSONuiLabelArray",
+            url: "getUiLabels",
             type: "POST",
             async: false,
-            data: {"requiredLabels" : requiredLabelsStr},
+            data: {"requiredLabels" : requiredLabelsStr, "widgetVerbose": false},
             complete: function(data) {
                 callback(data);
             }
@@ -1429,7 +1457,7 @@ function getJSONuiLabel(uiResource, errUiLabel) {
 }
 
 /**
- * Opens an alert alert box. This function is for a direct call from the ftl files where you can direcetly resolve youre labels
+ * Opens an alert box. This function is for a direct call from the ftl files where you can directly resolve your labels
  * @param errBoxTitle String - Can be empty
  * @param errMessage String - Required - i18n Error Message
  */
