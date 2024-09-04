@@ -261,8 +261,8 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:3.12.4'
     testImplementation 'org.jmockit:jmockit:1.49'
     testImplementation 'com.pholser:junit-quickcheck-generators:1.0'
-
-   runtimeOnly 'javax.xml.soap:javax.xml.soap-api:1.4.0'
+runtimeOnly 'mysql:mysql-connector-java:5.1.47'
+runtimeOnly 'javax.xml.soap:javax.xml.soap-api:1.4.0'
 runtimeOnly 'de.odysseus.juel:juel-spi:2.2.7'
 runtimeOnly 'net.sf.barcode4j:barcode4j-fop-ext:2.1'
 runtimeOnly 'net.sf.barcode4j:barcode4j:2.1'
