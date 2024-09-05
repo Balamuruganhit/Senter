@@ -15,7 +15,7 @@ if [ $DB_TYPE = mysql ]; then
 	mysql -h db-server -uroot -p$MYSQL_ROOT_PASSWORD -e "CREATE DATABASE IF NOT EXISTS ofbizolap; CREATE DATABASE IF NOT EXISTS ofbiztenant; grant all privileges on *.* to '$MYSQL_USER'@'%' identified by '$MYSQL_PASSWORD';"
 fi
 if [ $DB_TYPE = postgres ]; then
-	sed -i "265i runtimeonly 'org.postgresql:postgresql:42.2.5.jre7'" build.gradle
+	sed -i "266i runtimeonly 'org.postgresql:postgresql:42.2.5.jre7'" build.gradle
   sed -i -e '482,491s/ofbiz/'$POSTGRES_DB'/' $ConfFile
 	sed -i -e 's/jdbc-username="'ofbiz'"/jdbc-username="'$POSTGRES_USER'"/' $ConfFile
   sed -i -e 's/jdbc-password="'ofbiz'"/jdbc-password="'$POSTGRES_PASSWORD'"/' $ConfFile
