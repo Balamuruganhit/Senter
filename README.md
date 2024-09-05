@@ -191,3 +191,5 @@
      Following these steps should allow you to create SSL certificates using OpenSSL and configure NGINX to use SSL for secure communication with your application. Adjust the configuration according to your specific requirements.
 
 
+#   S e n t e r  
+ 
