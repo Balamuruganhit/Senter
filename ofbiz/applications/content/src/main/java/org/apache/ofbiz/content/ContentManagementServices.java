@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -883,12 +884,13 @@ public class ContentManagementServices {
         // Resolve all content assoc to resequence from the content
         try {
             List<GenericValue> contentAssocs = EntityQuery.use(delegator).from("ContentAssoc")
-                    .where(List.of(
-                            EntityCondition.makeCondition("contentId", contentId),
-                            EntityCondition.makeCondition("contentAssocTypeId", EntityOperator.IN, typeList)))
-                    .orderBy("sequenceNum", "fromDate", "createdDate")
-                    .filterByDate()
-                    .queryList();
+            .where(Arrays.asList(
+                EntityCondition.makeCondition("contentId", contentId),
+                EntityCondition.makeCondition("contentAssocTypeId", EntityOperator.IN, typeList)
+            ))
+            .orderBy("sequenceNum", "fromDate", "createdDate")
+            .filterByDate()
+            .queryList();
             String contentIdTo = (String) context.get("contentIdTo");
             String dir = (String) context.get("dir");
             int seqNum = seqStep;
