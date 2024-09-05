@@ -1,5 +1,6 @@
 bin/
 build/
+postgres-data/
 applications/*/build
 framework/*/build
 runtime/git-rebase/*
