@@ -9,8 +9,7 @@ RUN apk update && \
     apk add git && \
     apk add bash && \
     apk add subversion && \
-    apk add mysql-client \
-    apk add postgresql-client
+    apk add mysql-client
 
 RUN apk add --update nodejs nodejs-npm
 COPY config.env entrypoint.sh /root/
